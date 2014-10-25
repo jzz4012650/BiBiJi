@@ -2,6 +2,7 @@
 <resources>
 
     <string name="app_name">逼逼机</string>
+    <string name="setting_title">设置</string>
     <string name="title_section1">Section 1</string>
     <string name="title_section2">Section 2</string>
     <string name="title_section3">Section 3</string>
@@ -9,5 +10,7 @@
     <string name="navigation_drawer_close">Close navigation drawer</string>
     <string name="action_example">Example action</string>
     <string name="action_settings">Settings</string>
+    <string name="setting_label1">铃声</string>
+    <string name="setting_label2">音量增强</string>
 
 </resources>
