@@ -4,6 +4,11 @@
     android:versionCode="1"
     android:versionName="1.0" >
 
+    <uses-permission android:name="android.permission.BLUETOOTH" />
+    <uses-permission android:name="android.permission.BLUETOOTH_ADMIN" />
+    <uses-permission android:name="android.permission.BLUETOOTH_PRIVILEGED" />
+    <uses-permission android:name="android.permission.WAKE_LOCK" />
+
     <uses-sdk
         android:minSdkVersion="14"
         android:targetSdkVersion="20" />
@@ -22,6 +27,15 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+
+        <service android:name="com.bibizhaoji.bibiji.MediaButtonListenerService" >
+        </service>
+
+        <receiver android:name="com.bibizhaoji.bibiji.MediaButtonListener" >
+            <intent-filter android:priority="1000" >
+                <action android:name="android.bluetooth.headset.profile.action.AUDIO_STATE_CHANGED" />
+            </intent-filter>
+        </receiver>
     </application>
 
 </manifest>

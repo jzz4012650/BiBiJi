@@ -4,6 +4,7 @@ import android.app.ActionBar;
 import android.app.Activity;
 import android.app.Fragment;
 import android.app.FragmentManager;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.widget.DrawerLayout;
 import android.view.LayoutInflater;
@@ -37,6 +38,10 @@ public class MainActivity extends Activity implements
 	// Set up the drawer.
 	mNavigationDrawerFragment.setUp(R.id.navigation_drawer,
 		(DrawerLayout) findViewById(R.id.drawer_layout));
+
+	// 开启监听线控按键服务
+	Intent i = new Intent(this, MediaButtonListenerService.class);
+	startService(i);
     }
 
     @Override
