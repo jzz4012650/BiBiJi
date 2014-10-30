@@ -8,9 +8,22 @@
     android:paddingTop="@dimen/activity_vertical_margin"
     tools:context="com.bibizhaoji.bibiji.MainActivity$PlaceholderFragment" >
 
-    <TextView
-        android:id="@+id/section_label"
+    <LinearLayout
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content" />
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
+        android:orientation="horizontal" >
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="语音识别服务" />
+
+        <ToggleButton
+            android:id="@+id/service_switcher"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+        
+    </LinearLayout>
 
 </RelativeLayout>

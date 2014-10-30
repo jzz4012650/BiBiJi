@@ -4,54 +4,56 @@ import android.app.ActionBar;
 import android.app.Activity;
 import android.app.Fragment;
 import android.app.FragmentManager;
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.widget.DrawerLayout;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.View.OnClickListener;
 import android.view.ViewGroup;
+import android.widget.ToggleButton;
+
+import com.bibizhaoji.pocketsphinx.PocketSphinxService;
 
 public class MainActivity extends Activity implements
 	NavigationDrawerFragment.NavigationDrawerCallbacks {
 
-    /**
-     * Fragment managing the behaviors, interactions and presentation of the
-     * navigation drawer.
-     */
-    private NavigationDrawerFragment mNavigationDrawerFragment;
+    // 侧滑层
+    private NavigationDrawerFragment navigationDrawerFragment;
+//    private MainDrawerFragment mainDrawerFragment;
 
-    /**
-     * Used to store the last screen title. For use in
-     * {@link #restoreActionBar()}.
-     */
     private CharSequence mTitle;
+
+    private static Context context;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
 	super.onCreate(savedInstanceState);
 	setContentView(R.layout.activity_main);
 
-	mNavigationDrawerFragment = (NavigationDrawerFragment) getFragmentManager()
+	// 初始化侧滑部分
+	navigationDrawerFragment = (NavigationDrawerFragment) getFragmentManager()
 		.findFragmentById(R.id.navigation_drawer);
-	mTitle = getTitle();
-
-	// Set up the drawer.
-	mNavigationDrawerFragment.setUp(R.id.navigation_drawer,
+	navigationDrawerFragment.setUp(R.id.navigation_drawer,
 		(DrawerLayout) findViewById(R.id.drawer_layout));
-
-	// 开启监听线控按键服务
-	Intent i = new Intent(this, MediaButtonListenerService.class);
-	startService(i);
+	
+	// 初始化主界面部分
+	MainDrawerFragment mainDrawerFragment = new MainDrawerFragment();
+	getFragmentManager().beginTransaction().replace(R.id.container, mainDrawerFragment).commit();
+	
+	mTitle = getTitle();
+	context = this;
     }
 
     @Override
     public void onNavigationDrawerItemSelected(int position) {
 	// update the main content by replacing fragments
-	FragmentManager fragmentManager = getFragmentManager();
-	fragmentManager
-		.beginTransaction()
-		.replace(R.id.container,
-			PlaceholderFragment.newInstance(position + 1)).commit();
+//	FragmentManager fragmentManager = getFragmentManager();
+//	fragmentManager
+//		.beginTransaction()
+//		.replace(R.id.container,
+//			PlaceholderFragment.newInstance(position + 1)).commit();
     }
 
     public void onSectionAttached(int number) {
@@ -85,6 +87,8 @@ public class MainActivity extends Activity implements
 	 */
 	private static final String ARG_SECTION_NUMBER = "section_number";
 
+	private ToggleButton serviceSwitcher;
+
 	/**
 	 * Returns a new instance of this fragment for the given section number.
 	 */
@@ -104,6 +108,23 @@ public class MainActivity extends Activity implements
 		Bundle savedInstanceState) {
 	    View rootView = inflater.inflate(R.layout.fragment_main, container,
 		    false);
+	    serviceSwitcher = (ToggleButton) rootView
+		    .findViewById(R.id.service_switcher);
+	    serviceSwitcher.setOnClickListener(new OnClickListener() {
+
+		@Override
+		public void onClick(View v) {
+		    if (serviceSwitcher.isChecked()) {
+			Intent i = new Intent(context,
+				PocketSphinxService.class);
+			context.startService(i);
+		    } else {
+			Intent i = new Intent(context,
+				PocketSphinxService.class);
+			context.stopService(i);
+		    }
+		}
+	    });
 	    return rootView;
 	}
 

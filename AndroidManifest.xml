@@ -4,10 +4,12 @@
     android:versionCode="1"
     android:versionName="1.0" >
 
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.RECORD_AUDIO" />
+    <uses-permission android:name="android.permission.WAKE_LOCK"/>
     <uses-permission android:name="android.permission.BLUETOOTH" />
     <uses-permission android:name="android.permission.BLUETOOTH_ADMIN" />
     <uses-permission android:name="android.permission.BLUETOOTH_PRIVILEGED" />
-    <uses-permission android:name="android.permission.WAKE_LOCK" />
 
     <uses-sdk
         android:minSdkVersion="14"
@@ -18,19 +20,29 @@
         android:icon="@drawable/ic_launcher"
         android:label="@string/app_name"
         android:theme="@style/AppTheme" >
+
+        <!-- === Activities === -->
         <activity
-            android:name=".MainActivity"
+            android:name="com.bibizhaoji.bibiji.MainActivity"
             android:label="@string/app_name" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity
+            android:name="com.bibizhaoji.bibiji.LockScreenActivity"
+            android:label="@string/app_name"
+            android:theme="@style/NoActionBar" >
+        </activity>
 
+        <!-- === Services === -->
         <service android:name="com.bibizhaoji.bibiji.MediaButtonListenerService" >
         </service>
+        <service android:name="com.bibizhaoji.pocketsphinx.PocketSphinxService" >
+        </service>
 
+        <!-- === Receivers === -->
         <receiver android:name="com.bibizhaoji.bibiji.MediaButtonListener" >
             <intent-filter android:priority="1000" >
                 <action android:name="android.bluetooth.headset.profile.action.AUDIO_STATE_CHANGED" />

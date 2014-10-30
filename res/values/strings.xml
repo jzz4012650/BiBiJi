@@ -13,6 +13,6 @@
     <string name="setting_label1">铃声</string>
     <string name="setting_label2">音量增强</string>
     <string name="title_activity_lock_screen">LockScreenActivity</string>
-    <string name="hello_world">Hello world!</string>
+    <string name="hello_world">主人我在这里！</string>
 
 </resources>
