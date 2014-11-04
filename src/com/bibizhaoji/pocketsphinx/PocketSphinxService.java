@@ -8,6 +8,7 @@ import android.util.Log;
 
 import com.bibizhaoji.bibiji.G;
 import com.bibizhaoji.bibiji.LockScreenActivity;
+import com.bibizhaoji.bibiji.utils.Pref;
 
 public class PocketSphinxService extends Service implements RecognitionListener {
 
@@ -31,6 +32,9 @@ public class PocketSphinxService extends Service implements RecognitionListener 
 	public void onCreate() {
 		super.onCreate();
 
+	Log.d(G.LOG_TAG, "isNoDisturbingModeOnlyNight------>"+Pref.isNoDisturbingModeOnlyNight());
+
+//		Log.d(G.LOG_TAG, "isNoDisturbingModeOnlyNight------>"+SpUtils.getBoolean(this, Pref.DONT_DISTURB_MODE_AT_NIGHT, false));
 		recTask = new RecognizerTask();
 		recThread = new Thread(this.recTask);
 		recTask.setRecognitionListener(this);
