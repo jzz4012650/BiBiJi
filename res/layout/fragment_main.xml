@@ -9,6 +9,7 @@
     tools:context="com.bibizhaoji.bibiji.MainActivity$PlaceholderFragment" >
 
     <LinearLayout
+        android:id="@+id/linearLayout1"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_centerInParent="true"
@@ -23,7 +24,26 @@
             android:id="@+id/service_switcher"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content" />
-        
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_above="@+id/linearLayout1"
+        android:layout_alignRight="@+id/linearLayout1"
+        android:layout_marginBottom="33dp"
+        android:orientation="horizontal" >
+
+        <TextView
+            android:id="@+id/textView1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="夜间免打扰模式" />
+
+        <ToggleButton
+            android:id="@+id/NoDisturbing_switcher"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
     </LinearLayout>
 
 </RelativeLayout>

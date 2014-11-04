@@ -2,23 +2,14 @@ package com.bibizhaoji.bibiji;
 
 import android.app.ActionBar;
 import android.app.Activity;
-import android.app.Fragment;
 import android.content.Context;
-import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.widget.DrawerLayout;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.View.OnClickListener;
-import android.view.ViewGroup;
-import android.widget.ToggleButton;
-
-import com.bibizhaoji.pocketsphinx.PocketSphinxService;
 
 public class MainActivity extends Activity implements
 		NavigationDrawerFragment.NavigationDrawerCallbacks {
 
-	// �໬��
+	// 侧滑层
 	private NavigationDrawerFragment navigationDrawerFragment;
 	// private MainDrawerFragment mainDrawerFragment;
 
@@ -31,13 +22,13 @@ public class MainActivity extends Activity implements
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_main);
 
-		// ��ʼ���໬����
+		// 初始化侧滑部分
 		navigationDrawerFragment = (NavigationDrawerFragment) getFragmentManager()
 				.findFragmentById(R.id.navigation_drawer);
 		navigationDrawerFragment.setUp(R.id.navigation_drawer,
 				(DrawerLayout) findViewById(R.id.drawer_layout));
 
-		// ��ʼ�������沿��
+		// 初始化主界面部分
 		MainDrawerFragment mainDrawerFragment = new MainDrawerFragment();
 		getFragmentManager().beginTransaction()
 				.replace(R.id.container, mainDrawerFragment).commit();
