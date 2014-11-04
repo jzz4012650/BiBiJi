@@ -1,0 +1,73 @@
+Language model created by QuickLM on Tue Nov  4 09:56:21 EST 2014
+Copyright (c) 1996-2010 Carnegie Mellon University and Alexander I. Rudnicky
+
+The model is in standard ARPA format, designed by Doug Paul while he was at MITRE.
+
+The code that was used to produce this language model is available in Open Source.
+Please visit http://www.speech.cs.cmu.edu/tools/ for more information
+
+The (fixed) discount mass is 0.5. The backoffs are computed using the ratio method.
+This model based on a corpus of 12 sentences and 14 words
+
+\data\
+ngram 1=14
+ngram 2=24
+ngram 3=12
+
+\1-grams:
+-0.7782 </s> -0.3010
+-0.7782 <s> -0.2218
+-1.8573 BB机 -0.2218
+-1.8573 BB鸡 -0.2218
+-1.8573 哔哔机 -0.2218
+-1.8573 哔哔鸡 -0.2218
+-1.8573 比比机 -0.2218
+-1.8573 比比鸡 -0.2218
+-1.8573 碧碧机 -0.2218
+-1.8573 碧碧鸡 -0.2218
+-1.8573 笔笔机 -0.2218
+-1.8573 笔笔鸡 -0.2218
+-1.8573 逼逼鸡 -0.2218
+-1.8573 ﻿逼逼机 -0.2218
+
+\2-grams:
+-1.3802 <s> BB机 0.0000
+-1.3802 <s> BB鸡 0.0000
+-1.3802 <s> 哔哔机 0.0000
+-1.3802 <s> 哔哔鸡 0.0000
+-1.3802 <s> 比比机 0.0000
+-1.3802 <s> 比比鸡 0.0000
+-1.3802 <s> 碧碧机 0.0000
+-1.3802 <s> 碧碧鸡 0.0000
+-1.3802 <s> 笔笔机 0.0000
+-1.3802 <s> 笔笔鸡 0.0000
+-1.3802 <s> 逼逼鸡 0.0000
+-1.3802 <s> ﻿逼逼机 0.0000
+-0.3010 BB机 </s> -0.3010
+-0.3010 BB鸡 </s> -0.3010
+-0.3010 哔哔机 </s> -0.3010
+-0.3010 哔哔鸡 </s> -0.3010
+-0.3010 比比机 </s> -0.3010
+-0.3010 比比鸡 </s> -0.3010
+-0.3010 碧碧机 </s> -0.3010
+-0.3010 碧碧鸡 </s> -0.3010
+-0.3010 笔笔机 </s> -0.3010
+-0.3010 笔笔鸡 </s> -0.3010
+-0.3010 逼逼鸡 </s> -0.3010
+-0.3010 ﻿逼逼机 </s> -0.3010
+
+\3-grams:
+-0.3010 <s> BB机 </s>
+-0.3010 <s> BB鸡 </s>
+-0.3010 <s> 哔哔机 </s>
+-0.3010 <s> 哔哔鸡 </s>
+-0.3010 <s> 比比机 </s>
+-0.3010 <s> 比比鸡 </s>
+-0.3010 <s> 碧碧机 </s>
+-0.3010 <s> 碧碧鸡 </s>
+-0.3010 <s> 笔笔机 </s>
+-0.3010 <s> 笔笔鸡 </s>
+-0.3010 <s> 逼逼鸡 </s>
+-0.3010 <s> ﻿逼逼机 </s>
+
+\end\
