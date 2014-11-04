@@ -1,7 +1,6 @@
 package com.bibizhaoji.bibiji;
 
 import android.annotation.SuppressLint;
-import android.annotation.TargetApi;
 import android.app.Activity;
 import android.media.MediaPlayer;
 import android.os.Build;
@@ -9,77 +8,91 @@ import android.os.Bundle;
 import android.view.View;
 import android.view.WindowManager;
 
+/**
+ * æ¥æ”¶åˆ°è¯­éŸ³æŒ‡ä»¤åï¼Œå¼¹å‡ºäºé”å±ä¹‹ä¸Šçš„ç•Œé¢
+ * 
+ * @author jinzhenzu
+ *
+ */
 public class LockScreenActivity extends Activity {
 
-    private MediaPlayer mediaPlayer;
+	private MediaPlayer mediaPlayer;
 
-    @SuppressLint("InlinedApi")
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-	super.onCreate(savedInstanceState);
+	@SuppressLint("InlinedApi")
+	@Override
+	protected void onCreate(Bundle savedInstanceState) {
+		super.onCreate(savedInstanceState);
 
-	// ÉèÖÃËøÆÁÈ«ÆÁµ¯´°
-	getWindow().addFlags(
-		WindowManager.LayoutParams.FLAG_FULLSCREEN
-			| WindowManager.LayoutParams.FLAG_SHOW_WHEN_LOCKED
-			| WindowManager.LayoutParams.FLAG_TURN_SCREEN_ON
-			| WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
-	// ÉèÖÃJellyBeanÒÔÉÏ°²×¿°æ±¾Òş²Ø×´Ì¬À¸Óëµ¼º½À¸
-	if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
-	    int uiOptions;
-	    View decorView = getWindow().getDecorView();
-	    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
-		uiOptions = View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY
-			| View.SYSTEM_UI_FLAG_FULLSCREEN
-			| View.SYSTEM_UI_FLAG_HIDE_NAVIGATION;
-	    } else {
-		uiOptions = View.SYSTEM_UI_FLAG_HIDE_NAVIGATION
-			| View.SYSTEM_UI_FLAG_FULLSCREEN;
-	    }
-	    decorView.setSystemUiVisibility(uiOptions);
+		// è®¾ä¸ºé”å±å…¨å±å¼¹çª—
+		getWindow().addFlags(
+				WindowManager.LayoutParams.FLAG_FULLSCREEN
+						| WindowManager.LayoutParams.FLAG_SHOW_WHEN_LOCKED
+						| WindowManager.LayoutParams.FLAG_TURN_SCREEN_ON
+						| WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
+		// å¦‚æœç³»ç»Ÿç‰ˆæœ¬åœ¨JellyBeanä¹‹ä¸Šï¼Œéšè—è™šæ‹ŸæŒ‰é”®å’ŒçŠ¶æ€æ 
+		if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
+			int uiOptions;
+			View decorView = getWindow().getDecorView();
+			if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
+				uiOptions = View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY
+						| View.SYSTEM_UI_FLAG_FULLSCREEN
+						| View.SYSTEM_UI_FLAG_HIDE_NAVIGATION;
+			} else {
+				uiOptions = View.SYSTEM_UI_FLAG_HIDE_NAVIGATION
+						| View.SYSTEM_UI_FLAG_FULLSCREEN;
+			}
+			decorView.setSystemUiVisibility(uiOptions);
+		}
+		// æ¸²æŸ“ç•Œé¢
+		setContentView(R.layout.activity_lock_screen);
 	}
-	// äÖÈ¾²¼¾Ö
-	setContentView(R.layout.activity_lock_screen);
-    }
 
-    @Override
-    protected void onStart() {
-	super.onStart();
-    }
-
-    @Override
-    protected void onPause() {
-	super.onPause();
-	if (mediaPlayer != null) {
-	    mediaPlayer.stop(); // Í£Ö¹²¥·Å
-	    mediaPlayer.release(); // ÊÍ·ÅÃ½Ìå×ÊÔ´
-	    mediaPlayer = null; // ÊÍ·ÅÄÚ´æ
+	@Override
+	protected void onStart() {
+		super.onStart();
+		playSound(G.RINGTON, G.VOLUME);
 	}
-//	this.finish(); // ²»±£ÁôºóÌ¨Activity£¬±ÜÃâ¶à´Î·µ»Ø»Øµ½Õâ¸öActivity
-    }
-    
-    @Override
-    protected void onDestroy() {
-	// TODO Auto-generated method stub
-	super.onDestroy();
-    }
 
-    /**
-     * ²¥·ÅÉùÒô
-     * 
-     * @param soundResourceId
-     *            ÉùÒô×ÊÔ´ID
-     * @param volume
-     *            ÒôÁ¿(0.0-1.0)
-     */
-    private void playSound(int soundResourceId, float volume) {
-	mediaPlayer = MediaPlayer.create(this, soundResourceId); // ÉèÖÃ²¥·ÅÔ´
-	mediaPlayer.setVolume(volume, volume); // ÉèÖÃÒôÁ¿
-	mediaPlayer.setLooping(true); // Ñ­»·²¥·Å
-	mediaPlayer.start(); // ¿ªÊ¼²¥·Å
-    }
+	@Override
+	protected void onPause() {
+		super.onPause();
+		stopSound();
+		// this.finish();
+	}
 
-    private void playAnimation() {
+	@Override
+	protected void onDestroy() {
+		// TODO Auto-generated method stub
+		super.onDestroy();
+	}
 
-    }
+	/**
+	 * æ’­æ”¾é“ƒå£°
+	 * 
+	 * @param soundResourceId
+	 *            å£°éŸ³èµ„æºID
+	 * @param volume
+	 *            éŸ³é‡(0.0-1.0)
+	 */
+	private void playSound(int soundResourceId, float volume) {
+		mediaPlayer = MediaPlayer.create(this, soundResourceId);
+		mediaPlayer.setVolume(volume, volume);
+		mediaPlayer.setLooping(true);
+		mediaPlayer.start();
+	}
+
+	/**
+	 * åœæ­¢æ’­æ”¾é“ƒå£°
+	 */
+	private void stopSound() {
+		if (mediaPlayer != null) {
+			mediaPlayer.stop();
+			mediaPlayer.release();
+			mediaPlayer = null;
+		}
+	}
+
+	private void playAnimation() {
+
+	}
 }

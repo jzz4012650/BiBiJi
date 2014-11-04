@@ -4,9 +4,14 @@ public class G {
     
     public static final String LOG_TAG = "BiBiJi";
 
-    public static final String REC_WORD1 = "±Æ±Æ»ú";
+    public static final String REC_WORD1 = "é€¼é€¼æœº";
     
-    public static final String REC_WORD2 = "ÄãÔÚÄÄÀï";
+    public static final String REC_WORD2 = "ä½ åœ¨å“ªé‡Œ";
     
-    public static boolean isRecServiceRunning;
+    public static final int RINGTON = R.raw.rington;
+    
+    public static final float VOLUME = 1.0F;
+    
+    public static boolean isRecServiceRunning;       
+    
 }
