@@ -38,13 +38,10 @@ public class PocketSphinxService extends Service implements RecognitionListener 
 	public void onCreate() {
 		super.onCreate();
 		mContext = this;
-		Log.d(G.LOG_TAG,
-				"isNoDisturbingModeOnlyNight------>"
-						+ Pref.isNoDisturbingModeOnlyNight());
+//		Log.d(G.LOG_TAG,
+//				"isNoDisturbingModeOnlyNight------>"
+//						+ Pref.isNoDisturbingModeOnlyNight());
 
-		// Log.d(G.LOG_TAG,
-		// "isNoDisturbingModeOnlyNight------>"+SpUtils.getBoolean(this,
-		// Pref.DONT_DISTURB_MODE_AT_NIGHT, false));
 		recTask = new RecognizerTask(mContext);
 		recThread = new Thread(this.recTask);
 		recTask.setRecognitionListener(this);
@@ -77,9 +74,9 @@ public class PocketSphinxService extends Service implements RecognitionListener 
 		if (hyp == null) {
 			return;
 		}
-//		 if (hyp.indexOf(G.REC_WORD1) != -1 || hyp.indexOf(G.REC_WORD2) != -1)
-//		 {
-		if (isIdentified(hyp)) {
+		 if (hyp.indexOf(G.REC_WORD1) != -1)
+		 {
+//		if (isIdentified(hyp)) {
 			ToastUtils.show(mContext,  "*********get rec_word:" + hyp);
 			Log.d(G.LOG_TAG, "*********get rec_word:" + hyp);
 			Intent i = new Intent(this, LockScreenActivity.class);
