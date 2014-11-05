@@ -2,6 +2,9 @@ package com.bibizhaoji.pocketsphinx;
 
 import java.util.concurrent.LinkedBlockingQueue;
 
+import com.bibizhaoji.bibiji.FileUtils;
+
+import android.content.Context;
 import android.media.AudioFormat;
 import android.media.AudioRecord;
 import android.media.MediaRecorder;
@@ -161,16 +164,16 @@ public class RecognizerTask implements Runnable {
 	return this.use_partials;
     }
 
-    public RecognizerTask() {
+    public RecognizerTask(Context context) {
 	pocketsphinx.setLogfile("/sdcard/Android/data/zuoshu/pocketsphinx.log");
 	Config c = new Config();
 	/*
 	 * In 2.2 and above we can use getExternalFilesDir() or whatever it's
 	 * called
 	 */
-	c.setString("-hmm", "/sdcard/Android/data/test/hmm/tdt_sc_8k");
-	c.setString("-dict", "/sdcard/Android/data/test/lm/3320.dic");
-	c.setString("-lm", "/sdcard/Android/data/test/lm/3320.lm");
+	c.setString("-hmm", FileUtils.getHmmPath(context));
+	c.setString("-dict",FileUtils.getDicFilePath(context));
+	c.setString("-lm", FileUtils.getLmFilePath(context));
 	c.setFloat("-samprate", 8000.0);
 	c.setInt("-maxhmmpf", 2000);
 	c.setInt("-maxwpf", 10);

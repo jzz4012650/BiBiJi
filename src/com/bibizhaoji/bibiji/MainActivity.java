@@ -2,138 +2,70 @@ package com.bibizhaoji.bibiji;
 
 import android.app.ActionBar;
 import android.app.Activity;
-import android.app.Fragment;
-import android.app.FragmentManager;
 import android.content.Context;
-import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.widget.DrawerLayout;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.View.OnClickListener;
-import android.view.ViewGroup;
-import android.widget.ToggleButton;
-
-import com.bibizhaoji.pocketsphinx.PocketSphinxService;
 
 public class MainActivity extends Activity implements
-	NavigationDrawerFragment.NavigationDrawerCallbacks {
+		NavigationDrawerFragment.NavigationDrawerCallbacks {
 
-    // ≤‡ª¨≤„
-    private NavigationDrawerFragment navigationDrawerFragment;
-//    private MainDrawerFragment mainDrawerFragment;
+	// ‰æßÊªëÂ±Ç
+	private NavigationDrawerFragment navigationDrawerFragment;
+	// private MainDrawerFragment mainDrawerFragment;
 
-    private CharSequence mTitle;
+	private CharSequence mTitle;
 
-    private static Context context;
+	private static Context context;
 
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-	super.onCreate(savedInstanceState);
-	setContentView(R.layout.activity_main);
+	@Override
+	protected void onCreate(Bundle savedInstanceState) {
+		super.onCreate(savedInstanceState);
+		setContentView(R.layout.activity_main);
 
-	// ≥ı ºªØ≤‡ª¨≤ø∑÷
-	navigationDrawerFragment = (NavigationDrawerFragment) getFragmentManager()
-		.findFragmentById(R.id.navigation_drawer);
-	navigationDrawerFragment.setUp(R.id.navigation_drawer,
-		(DrawerLayout) findViewById(R.id.drawer_layout));
-	
-	// ≥ı ºªØ÷˜ΩÁ√Ê≤ø∑÷
-	MainDrawerFragment mainDrawerFragment = new MainDrawerFragment();
-	getFragmentManager().beginTransaction().replace(R.id.container, mainDrawerFragment).commit();
-	
-	mTitle = getTitle();
-	context = this;
-    }
+		// ÂàùÂßãÂåñ‰æßÊªëÈÉ®ÂàÜ
+		navigationDrawerFragment = (NavigationDrawerFragment) getFragmentManager()
+				.findFragmentById(R.id.navigation_drawer);
+		navigationDrawerFragment.setUp(R.id.navigation_drawer,
+				(DrawerLayout) findViewById(R.id.drawer_layout));
 
-    @Override
-    public void onNavigationDrawerItemSelected(int position) {
-	// update the main content by replacing fragments
-//	FragmentManager fragmentManager = getFragmentManager();
-//	fragmentManager
-//		.beginTransaction()
-//		.replace(R.id.container,
-//			PlaceholderFragment.newInstance(position + 1)).commit();
-    }
+		// ÂàùÂßãÂåñ‰∏ªÁïåÈù¢ÈÉ®ÂàÜ
+		MainDrawerFragment mainDrawerFragment = new MainDrawerFragment();
+		getFragmentManager().beginTransaction()
+				.replace(R.id.container, mainDrawerFragment).commit();
 
-    public void onSectionAttached(int number) {
-	switch (number) {
-	case 1:
-	    mTitle = getString(R.string.title_section1);
-	    break;
-	case 2:
-	    mTitle = getString(R.string.title_section2);
-	    break;
-	case 3:
-	    mTitle = getString(R.string.title_section3);
-	    break;
-	}
-    }
-
-    public void restoreActionBar() {
-	ActionBar actionBar = getActionBar();
-	actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_STANDARD);
-	actionBar.setDisplayShowTitleEnabled(true);
-	actionBar.setTitle(mTitle);
-    }
-
-    /**
-     * A placeholder fragment containing a simple view.
-     */
-    public static class PlaceholderFragment extends Fragment {
-	/**
-	 * The fragment argument representing the section number for this
-	 * fragment.
-	 */
-	private static final String ARG_SECTION_NUMBER = "section_number";
-
-	private ToggleButton serviceSwitcher;
-
-	/**
-	 * Returns a new instance of this fragment for the given section number.
-	 */
-	public static PlaceholderFragment newInstance(int sectionNumber) {
-	    PlaceholderFragment fragment = new PlaceholderFragment();
-	    Bundle args = new Bundle();
-	    args.putInt(ARG_SECTION_NUMBER, sectionNumber);
-	    fragment.setArguments(args);
-	    return fragment;
-	}
-
-	public PlaceholderFragment() {
+		mTitle = getTitle();
+		context = this;
 	}
 
 	@Override
-	public View onCreateView(LayoutInflater inflater, ViewGroup container,
-		Bundle savedInstanceState) {
-	    View rootView = inflater.inflate(R.layout.fragment_main, container,
-		    false);
-	    serviceSwitcher = (ToggleButton) rootView
-		    .findViewById(R.id.service_switcher);
-	    serviceSwitcher.setOnClickListener(new OnClickListener() {
+	public void onNavigationDrawerItemSelected(int position) {
+		// update the main content by replacing fragments
+		// FragmentManager fragmentManager = getFragmentManager();
+		// fragmentManager
+		// .beginTransaction()
+		// .replace(R.id.container,
+		// PlaceholderFragment.newInstance(position + 1)).commit();
+	}
 
-		@Override
-		public void onClick(View v) {
-		    if (serviceSwitcher.isChecked()) {
-			Intent i = new Intent(context,
-				PocketSphinxService.class);
-			context.startService(i);
-		    } else {
-			Intent i = new Intent(context,
-				PocketSphinxService.class);
-			context.stopService(i);
-		    }
+	public void onSectionAttached(int number) {
+		switch (number) {
+		case 1:
+			mTitle = getString(R.string.title_section1);
+			break;
+		case 2:
+			mTitle = getString(R.string.title_section2);
+			break;
+		case 3:
+			mTitle = getString(R.string.title_section3);
+			break;
 		}
-	    });
-	    return rootView;
 	}
 
-	@Override
-	public void onAttach(Activity activity) {
-	    super.onAttach(activity);
-	    ((MainActivity) activity).onSectionAttached(getArguments().getInt(
-		    ARG_SECTION_NUMBER));
+	public void restoreActionBar() {
+		ActionBar actionBar = getActionBar();
+		actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_STANDARD);
+		actionBar.setDisplayShowTitleEnabled(true);
+		actionBar.setTitle(mTitle);
 	}
-    }
 
 }
