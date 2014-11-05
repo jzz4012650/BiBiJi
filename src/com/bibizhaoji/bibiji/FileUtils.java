@@ -7,7 +7,6 @@ import java.io.InputStream;
 
 import android.content.Context;
 import android.content.res.AssetManager;
-import android.text.TextUtils;
 
 import com.bibizhaoji.bibiji.utils.Md5Util;
 
@@ -18,8 +17,8 @@ import com.bibizhaoji.bibiji.utils.Md5Util;
  *
  */
 public class FileUtils {
-	
-	public static String getHmmPath(Context context){
+
+	public static String getHmmPath(Context context) {
 		copyNativeLib(context, "hmm/tdt_sc_8k", "feat.params");
 		copyNativeLib(context, "hmm/tdt_sc_8k", "mdef");
 		copyNativeLib(context, "hmm/tdt_sc_8k", "means");
@@ -28,34 +27,37 @@ public class FileUtils {
 		copyNativeLib(context, "hmm/tdt_sc_8k", "transition_matrices");
 		String path = copyNativeLib(context, "hmm/tdt_sc_8k", "variances");
 		int size = path.split("/").length;
-		path = path.replace("/"+path.split("/")[size-1], "");
-		return path;	
+		path = path.replace("/" + path.split("/")[size - 1], "");
+		return path;
 	}
-	
-	/**获取XXX.dic文件的路径*/
-	public static String getDicFilePath(Context context){
-		
+
+	/** 获取XXX.dic文件的路径 */
+	public static String getDicFilePath(Context context) {
+
 		return copyNativeLib(context, "lm", "1663.dic");
 	}
-	
-	/**获取XXX.lm文件的路径*/
-	public static String getLmFilePath(Context context){
+
+	/** 获取XXX.lm文件的路径 */
+	public static String getLmFilePath(Context context) {
 		return copyNativeLib(context, "lm", "1663.lm");
 	}
 
-	public static String copyNativeLib(Context context,String DirName, String name) {
-		File rootDir = context.getDir("MyRecognizerDictionary", Context.MODE_PRIVATE);
+	public static String copyNativeLib(Context context, String DirName,
+			String name) {
+		File rootDir = context.getDir("MyRecognizerDictionary",
+				Context.MODE_PRIVATE);
 		if (!rootDir.exists()) {
 			rootDir.mkdirs();
 		}
-		
-		File dir =new File(rootDir, DirName);
-		if(!dir.exists()){
+
+		File dir = new File(rootDir, DirName);
+		if (!dir.exists()) {
 			dir.mkdirs();
 		}
-		
-		String assetpath = String.format("recognizerDictionary/%s/%s", DirName, name);
-		
+
+		String assetpath = String.format("recognizerDictionary/%s/%s", DirName,
+				name);
+
 		File dstFile = new File(dir, name);
 		AssetManager assets = context.getAssets();
 		if (dstFile.exists()) {
@@ -63,12 +65,13 @@ public class FileUtils {
 			String fileMd5 = Md5Util.md5(dstFile);
 			if (assetMd5 != null && assetMd5.equalsIgnoreCase(fileMd5)) {
 				try {
-					Process process = Runtime.getRuntime().exec("chmod 755 " + dstFile.getPath());
+					Process process = Runtime.getRuntime().exec(
+							"chmod 755 " + dstFile.getPath());
 					process.waitFor();
 				} catch (Throwable e) {
 					e.printStackTrace();
 				}
-				//md5 一致，说明不需要再拷贝了。直接返回true；
+				// md5 一致，说明不需要再拷贝了。直接返回true；
 				return dstFile.getPath();
 			} else {
 				dstFile.delete();
@@ -79,7 +82,8 @@ public class FileUtils {
 			String fileMd5 = Md5Util.md5(dstFile);
 			if (assetMd5 != null && assetMd5.equalsIgnoreCase(fileMd5)) {
 				try {
-					Process process = Runtime.getRuntime().exec("chmod 755 " + dstFile.getPath());
+					Process process = Runtime.getRuntime().exec(
+							"chmod 755 " + dstFile.getPath());
 					process.waitFor();
 				} catch (Throwable e) {
 					e.printStackTrace();
@@ -93,7 +97,7 @@ public class FileUtils {
 			return null;
 		}
 	}
-	
+
 	private static String md5AssetFile(AssetManager am, String assetpath) {
 		InputStream in = null;
 		try {
@@ -118,7 +122,8 @@ public class FileUtils {
 		}
 	}
 
-	private static boolean copyAssetFile(AssetManager am, String name, String dstPath) {
+	private static boolean copyAssetFile(AssetManager am, String name,
+			String dstPath) {
 		InputStream in = null;
 		FileOutputStream out = null;
 		try {

@@ -1,10 +1,7 @@
 package com.bibizhaoji.bibiji;
 
-import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.List;
 
-import android.R.integer;
 import android.app.Fragment;
 import android.app.TimePickerDialog;
 import android.app.TimePickerDialog.OnTimeSetListener;
@@ -15,13 +12,10 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
-import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.TimePicker;
-import android.widget.Toast;
 import android.widget.ToggleButton;
 
-import com.bibizhaoji.bibiji.utils.Log;
 import com.bibizhaoji.bibiji.utils.Pref;
 import com.bibizhaoji.bibiji.utils.ToastUtils;
 import com.bibizhaoji.pocketsphinx.PocketSphinxService;
@@ -41,7 +35,6 @@ public class MainDrawerFragment extends Fragment implements OnClickListener {
 	    Bundle bundle) {
 	return inflater.inflate(R.layout.fragment_main, viewGroup, false);
     }
-    
 
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {

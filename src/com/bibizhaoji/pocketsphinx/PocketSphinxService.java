@@ -1,8 +1,5 @@
 package com.bibizhaoji.pocketsphinx;
 
-import java.util.Arrays;
-import java.util.List;
-
 import android.app.Service;
 import android.content.Context;
 import android.content.Intent;
@@ -12,8 +9,6 @@ import android.util.Log;
 
 import com.bibizhaoji.bibiji.G;
 import com.bibizhaoji.bibiji.LockScreenActivity;
-import com.bibizhaoji.bibiji.utils.Pref;
-import com.bibizhaoji.bibiji.utils.ToastUtils;
 
 public class PocketSphinxService extends Service implements RecognitionListener {
 
@@ -38,9 +33,9 @@ public class PocketSphinxService extends Service implements RecognitionListener 
 	public void onCreate() {
 		super.onCreate();
 		mContext = this;
-//		Log.d(G.LOG_TAG,
-//				"isNoDisturbingModeOnlyNight------>"
-//						+ Pref.isNoDisturbingModeOnlyNight());
+		// Log.d(G.LOG_TAG,
+		// "isNoDisturbingModeOnlyNight------>"
+		// + Pref.isNoDisturbingModeOnlyNight());
 
 		recTask = new RecognizerTask(mContext);
 		recThread = new Thread(this.recTask);
@@ -73,78 +68,24 @@ public class PocketSphinxService extends Service implements RecognitionListener 
 		final String hyp = b.getString("hyp");
 		if (hyp == null) {
 			return;
-		}
-		 if (hyp.indexOf(G.REC_WORD1) != -1)
-		 {
-//		if (isIdentified(hyp)) {
-			ToastUtils.show(mContext,  "*********get rec_word:" + hyp);
+		} else if (hyp.indexOf(G.REC_WORD1) != -1) {
 			Log.d(G.LOG_TAG, "*********get rec_word:" + hyp);
 			Intent i = new Intent(this, LockScreenActivity.class);
 			i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
 			this.startActivity(i);
 			this.onDestroy();
 		}
-		// if (hyp.equals(G.REC_WORD2)) {
-		// Log.d(getClass().getName(), "*********get rec_word:" + hyp);
-		// }
-
-		// final PocketSphinxService that = this;
-		// that.edit_text.post(new Runnable() {
-		// public void run() {
-		// that.edit_text.setText(hyp);
-		// }
-		// });
-	}
-
-	public boolean isIdentified(String hyp) {
-		
-		for (int i = 0; i < G.REC_WORDS.length; i++) {
-			if(hyp.indexOf(G.REC_WORDS[i]) != -1){
-				return true;
-			}
-		}
-		return false;
-		
-//		// 转换为list
-//		List<String> tempList = Arrays.asList(G.REC_WORDS);
-//		if (tempList.contains(hyp)) {
-//			return true;
-//		} else {
-//			return false;
-//		}
-
 	}
 
 	@Override
 	public void onResults(Bundle b) {
 		final String hyp = b.getString("hyp");
 		Log.d(G.LOG_TAG, "|||||||||||recognizition finished:" + hyp);
-
-		// final PocketSphinxService that = this;
-		// this.edit_text.post(new Runnable() {
-		// public void run() {
-		// that.edit_text.setText(hyp);
-		// Date end_date = new Date();
-		// long nmsec = end_date.getTime() - that.start_date.getTime();
-		// float rec_dur = (float) nmsec / 1000;
-		// that.performance_text.setText(String.format(
-		// "%.2f seconds %.2f xRT", that.speech_dur, rec_dur
-		// / that.speech_dur));
-		// Log.d(getClass().getName(), "Hiding Dialog");
-		// that.rec_dialog.dismiss();
-		// }
-		// });
 	}
 
 	@Override
 	public void onError(int err) {
 		Log.d(G.LOG_TAG, "PocketSphinx got an error.");
-		// final PocketSphinxService that = this;
-		// that.edit_text.post(new Runnable() {
-		// public void run() {
-		// that.rec_dialog.dismiss();
-		// }
-		// });
 	}
 
 }

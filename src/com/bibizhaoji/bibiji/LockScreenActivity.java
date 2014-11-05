@@ -91,8 +91,4 @@ public class LockScreenActivity extends Activity {
 			mediaPlayer = null;
 		}
 	}
-
-	private void playAnimation() {
-
-	}
 }
