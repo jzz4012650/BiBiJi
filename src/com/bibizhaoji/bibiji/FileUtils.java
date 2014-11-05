@@ -7,7 +7,6 @@ import java.io.InputStream;
 
 import android.content.Context;
 import android.content.res.AssetManager;
-import android.text.TextUtils;
 
 import com.bibizhaoji.bibiji.utils.Md5Util;
 
@@ -35,12 +34,12 @@ public class FileUtils {
 	/**获取XXX.dic文件的路径*/
 	public static String getDicFilePath(Context context){
 		
-		return copyNativeLib(context, "lm", "1663.dic");
+		return copyNativeLib(context, "lm", "3320.dic");
 	}
 	
 	/**获取XXX.lm文件的路径*/
 	public static String getLmFilePath(Context context){
-		return copyNativeLib(context, "lm", "1663.lm");
+		return copyNativeLib(context, "lm", "3320.lm");
 	}
 
 	public static String copyNativeLib(Context context,String DirName, String name) {

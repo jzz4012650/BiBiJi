@@ -1,8 +1,5 @@
 package com.bibizhaoji.pocketsphinx;
 
-import java.util.Arrays;
-import java.util.List;
-
 import android.app.Service;
 import android.content.Context;
 import android.content.Intent;
@@ -13,7 +10,6 @@ import android.util.Log;
 import com.bibizhaoji.bibiji.G;
 import com.bibizhaoji.bibiji.LockScreenActivity;
 import com.bibizhaoji.bibiji.utils.Pref;
-import com.bibizhaoji.bibiji.utils.ToastUtils;
 
 public class PocketSphinxService extends Service implements RecognitionListener {
 
@@ -26,8 +22,7 @@ public class PocketSphinxService extends Service implements RecognitionListener 
 	private boolean listening;
 	private long tStart;
 	private long tEnd;
-	private Context mContext;
-
+	Context mContext;
 	@Override
 	public IBinder onBind(Intent arg0) {
 		// TODO Auto-generated method stub
@@ -38,10 +33,9 @@ public class PocketSphinxService extends Service implements RecognitionListener 
 	public void onCreate() {
 		super.onCreate();
 		mContext = this;
-//		Log.d(G.LOG_TAG,
-//				"isNoDisturbingModeOnlyNight------>"
-//						+ Pref.isNoDisturbingModeOnlyNight());
+	Log.d(G.LOG_TAG, "isNoDisturbingModeOnlyNight------>"+Pref.isNoDisturbingModeOnlyNight());
 
+//		Log.d(G.LOG_TAG, "isNoDisturbingModeOnlyNight------>"+SpUtils.getBoolean(this, Pref.DONT_DISTURB_MODE_AT_NIGHT, false));
 		recTask = new RecognizerTask(mContext);
 		recThread = new Thread(this.recTask);
 		recTask.setRecognitionListener(this);
@@ -74,10 +68,7 @@ public class PocketSphinxService extends Service implements RecognitionListener 
 		if (hyp == null) {
 			return;
 		}
-		 if (hyp.indexOf(G.REC_WORD1) != -1)
-		 {
-//		if (isIdentified(hyp)) {
-			ToastUtils.show(mContext,  "*********get rec_word:" + hyp);
+		if (hyp.indexOf(G.REC_WORD1) != -1 ) {
 			Log.d(G.LOG_TAG, "*********get rec_word:" + hyp);
 			Intent i = new Intent(this, LockScreenActivity.class);
 			i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
@@ -94,25 +85,6 @@ public class PocketSphinxService extends Service implements RecognitionListener 
 		// that.edit_text.setText(hyp);
 		// }
 		// });
-	}
-
-	public boolean isIdentified(String hyp) {
-		
-		for (int i = 0; i < G.REC_WORDS.length; i++) {
-			if(hyp.indexOf(G.REC_WORDS[i]) != -1){
-				return true;
-			}
-		}
-		return false;
-		
-//		// 转换为list
-//		List<String> tempList = Arrays.asList(G.REC_WORDS);
-//		if (tempList.contains(hyp)) {
-//			return true;
-//		} else {
-//			return false;
-//		}
-
 	}
 
 	@Override

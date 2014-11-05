@@ -2,14 +2,15 @@ package com.bibizhaoji.pocketsphinx;
 
 import java.util.concurrent.LinkedBlockingQueue;
 
-import com.bibizhaoji.bibiji.FileUtils;
-
 import android.content.Context;
 import android.media.AudioFormat;
 import android.media.AudioRecord;
 import android.media.MediaRecorder;
 import android.os.Bundle;
 import android.util.Log;
+
+import com.bibizhaoji.bibiji.FileUtils;
+
 import edu.cmu.pocketsphinx.Config;
 import edu.cmu.pocketsphinx.Decoder;
 import edu.cmu.pocketsphinx.Hypothesis;

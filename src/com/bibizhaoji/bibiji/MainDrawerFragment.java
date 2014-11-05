@@ -1,13 +1,11 @@
 package com.bibizhaoji.bibiji;
 
-import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.List;
 
-import android.R.integer;
 import android.app.Fragment;
 import android.app.TimePickerDialog;
 import android.app.TimePickerDialog.OnTimeSetListener;
+import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
@@ -15,10 +13,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
-import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.TimePicker;
-import android.widget.Toast;
 import android.widget.ToggleButton;
 
 import com.bibizhaoji.bibiji.utils.Log;
@@ -33,7 +29,7 @@ public class MainDrawerFragment extends Fragment implements OnClickListener {
 	private Context mContext;
 	private TextView startTime;
 	private TextView endTime;
-	private int[] mStartTime = {0,0};//默认00:00
+	private int[] mStartTime = {5,0};//默认00:00
 	private int[] mEndTime = {7,0};//默认07:00
 	
     @Override
@@ -136,6 +132,7 @@ public class MainDrawerFragment extends Fragment implements OnClickListener {
 		
 		if(Pref.isNoDisturbingModeOnlyNight()){
 			//开启夜间免打扰模式，在夜间(00:00-07:00)server不允许运行
+		      
 		      Calendar cal = Calendar.getInstance();// 当前日期
 		      int hour = cal.get(Calendar.HOUR_OF_DAY);// 获取小时
 		      int minute = cal.get(Calendar.MINUTE);// 获取分钟
@@ -156,4 +153,6 @@ public class MainDrawerFragment extends Fragment implements OnClickListener {
 		}
 		
 	}
+	
+
 }
