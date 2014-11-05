@@ -1,0 +1,61 @@
+Language model created by QuickLM on Sun Feb  3 06:27:59 EST 2013
+Copyright (c) 1996-2010 Carnegie Mellon University and Alexander I. Rudnicky
+
+The model is in standard ARPA format, designed by Doug Paul while he was at MITRE.
+
+The code that was used to produce this language model is available in Open Source.
+Please visit http://www.speech.cs.cmu.edu/tools/ for more information
+
+The (fixed) discount mass is 0.5. The backoffs are computed using the ratio method.
+This model based on a corpus of 9 sentences and 11 words
+
+\data\
+ngram 1=11
+ngram 2=18
+ngram 3=9
+
+\1-grams:
+-0.7782 </s> -0.3010
+-0.7782 <s> -0.2218
+-1.7324 今天 -0.2218
+-1.7324 他 -0.2218
+-1.7324 你 -0.2218
+-1.7324 你好 -0.2218
+-1.7324 好 -0.2218
+-1.7324 我 -0.2218
+-1.7324 爱 -0.2218
+-1.7324 矿难 -0.2218
+-1.7324 透水 -0.2218
+
+\2-grams:
+-1.2553 <s> 今天 0.0000
+-1.2553 <s> 他 0.0000
+-1.2553 <s> 你 0.0000
+-1.2553 <s> 你好 0.0000
+-1.2553 <s> 好 0.0000
+-1.2553 <s> 我 0.0000
+-1.2553 <s> 爱 0.0000
+-1.2553 <s> 矿难 0.0000
+-1.2553 <s> 透水 0.0000
+-0.3010 今天 </s> -0.3010
+-0.3010 他 </s> -0.3010
+-0.3010 你 </s> -0.3010
+-0.3010 你好 </s> -0.3010
+-0.3010 好 </s> -0.3010
+-0.3010 我 </s> -0.3010
+-0.3010 爱 </s> -0.3010
+-0.3010 矿难 </s> -0.3010
+-0.3010 透水 </s> -0.3010
+
+\3-grams:
+-0.3010 <s> 今天 </s>
+-0.3010 <s> 他 </s>
+-0.3010 <s> 你 </s>
+-0.3010 <s> 你好 </s>
+-0.3010 <s> 好 </s>
+-0.3010 <s> 我 </s>
+-0.3010 <s> 爱 </s>
+-0.3010 <s> 矿难 </s>
+-0.3010 <s> 透水 </s>
+
+\end\
