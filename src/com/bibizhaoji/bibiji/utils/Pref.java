@@ -2,64 +2,65 @@ package com.bibizhaoji.bibiji.utils;
 
 import android.content.Context;
 import android.content.SharedPreferences;
-import android.content.SharedPreferences.Editor;
-import android.os.Build;
-import android.util.Log;
 
 /**
  * 配置文件
+ * 
  * @author caiyingyuan
  * */
 public class Pref {
 
-	private static SharedPreferences mPrefs;
-	public static String DONT_DISTURB_MODE_AT_NIGHT = "dont_disturb_mode_at_night";
-	private static String BIBIJI_PREF = "BiBiJi_pref";
+    private static SharedPreferences mPrefs;
+    public static String MAIN_SWITCHER = "main_switcher";
+    public static String NIGHT_MODE = "NIGHT_MODE";
+    private static String BIBIJI_PREF = "BiBiJi_pref";
 
-	private static void init(Context context) {
-		mPrefs = context.getSharedPreferences(BIBIJI_PREF,
-				android.content.Context.MODE_PRIVATE);
+    private static void init(Context context) {
+	mPrefs = context.getSharedPreferences(BIBIJI_PREF,
+		android.content.Context.MODE_PRIVATE);
+    }
+
+    public static SharedPreferences getSharePrefenrences(Context context) {
+	if (mPrefs == null) {
+	    init(context);
 	}
+	return mPrefs;
+    }
+    
+    public static final void setMainSwitcher(Context context, boolean enable) {
+	init(context);
+	setBooleanSetting(MAIN_SWITCHER, enable);
+    }
 
-	public static SharedPreferences getSharePrefenrences(Context context) {
-		if (mPrefs == null) {
-			init(context);
-		}
-		return mPrefs;
-	}
+    public static final void setNightMode(Context context, boolean enable) {
+	init(context);
+	setBooleanSetting(NIGHT_MODE, enable);
+    }
+    
+    public static final boolean isMainSwitcherOn() {
+	return getBooleanSetting(MAIN_SWITCHER, false);
+    }
 
-	public static void applyEditor(Editor editor) {
-		Log.d("SpeedUtils", "applyEditor");
+    public static final boolean isNightModeOn() {
+	return getBooleanSetting(NIGHT_MODE, false);
+    }
 
-		if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.GINGERBREAD) {
-			editor.apply();
-		} else {
-			editor.commit();
-		}
-	}
+    private static void setBooleanSetting(String key, boolean enable) {
+	mPrefs.edit().putBoolean(key, enable).apply();
+    }
 
-	public static final void enableNoDisturbingModeOnlyNight(Context context,
-			Boolean enable) {
+    private static boolean getBooleanSetting(String key, boolean selected) {
+	return mPrefs.getBoolean(key, selected);
+    }
 
-		init(context);
-		setBooleanSetting(DONT_DISTURB_MODE_AT_NIGHT, enable);
-	}
-
-	public static final boolean isNoDisturbingModeOnlyNight() {
-		
-		return getBooleanSetting(DONT_DISTURB_MODE_AT_NIGHT, false);
-	}
-
-	private static void setBooleanSetting(String key,
-			boolean enable) {
-		
-		 applyEditor(mPrefs.edit().putBoolean(key, enable));
-	}
-
-	private static boolean getBooleanSetting(String key, boolean selected) {
-		
-		return mPrefs.getBoolean(key, selected);
-
-	}
-
+    //项目最低SDk_INT已经是14
+//    public static void applyEditor(Editor editor) {
+//	Log.d("SpeedUtils", "applyEditor");
+//
+//	if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.GINGERBREAD) {
+//	    editor.apply();
+//	} else {
+//	    editor.commit();
+//	}
+//    }
 }

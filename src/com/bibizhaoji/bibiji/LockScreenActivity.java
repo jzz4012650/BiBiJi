@@ -58,15 +58,15 @@ public class LockScreenActivity extends Activity {
 	audioManager = (AudioManager) getSystemService(AUDIO_SERVICE);
 	originalVol = audioManager.getStreamVolume(AudioManager.STREAM_MUSIC);
 	maximalVol = audioManager.getStreamMaxVolume(AudioManager.STREAM_MUSIC);
-	playSound(G.RINGTON, G.VOLUME);
+//	playSound(G.RINGTON, G.VOLUME);
     }
 
     @Override
     protected void onPause() {
 	super.onPause();
-	stopSound();
+//	stopSound();
 	// 恢复铃声
-	audioManager.setStreamVolume(AudioManager.STREAM_MUSIC, originalVol, 0);
+//	audioManager.setStreamVolume(AudioManager.STREAM_MUSIC, originalVol, 0);
 	// this.finish();
     }
 

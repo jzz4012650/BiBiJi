@@ -9,6 +9,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.view.View.OnClickListener;
+import android.widget.Button;
 import android.widget.TextView;
 import android.widget.TimePicker;
 import android.widget.ToggleButton;
@@ -19,6 +20,8 @@ import com.bibizhaoji.pocketsphinx.PocketSphinxService;
 
 public class MainActivity extends Activity implements OnClickListener {
 
+    private Button mainSwticher;
+    private Button nightModeSwitcher;
     private ToggleButton serviceSwitcher;
     private ToggleButton noDisturbingSwitcher;
     private TextView startTime;
@@ -35,30 +38,46 @@ public class MainActivity extends Activity implements OnClickListener {
 	noDisturbingSwitcher = (ToggleButton) findViewById(R.id.NoDisturbing_switcher);
 	startTime = (TextView) findViewById(R.id.startTime);
 	endTime = (TextView) findViewById(R.id.endTime);
+	mainSwticher = (Button) findViewById(R.id.main_switcher);
+	nightModeSwitcher = (Button) findViewById(R.id.night_mode_switcher);
 
 	startTime.setOnClickListener(this);
 	endTime.setOnClickListener(this);
-
 	noDisturbingSwitcher.setOnClickListener(this);
 	serviceSwitcher.setOnClickListener(this);
+	mainSwticher.setOnClickListener(this);
+	nightModeSwitcher.setOnClickListener(this);
 	// 初始化配置文件
 	Pref.getSharePrefenrences(this);
-	noDisturbingSwitcher.setChecked(Pref.isNoDisturbingModeOnlyNight());
+	noDisturbingSwitcher.setChecked(Pref.isNightModeOn());
     }
 
     @Override
     protected void onStart() {
 	super.onStart();
-	if (G.isRecServiceRunning) {
-	    serviceSwitcher.setChecked(true);
+	if (Pref.isMainSwitcherOn()) {
+	    mainSwticher.setBackgroundResource(R.drawable.main_switcher_on);
 	} else {
-	    serviceSwitcher.setChecked(false);
+	    mainSwticher.setBackgroundResource(R.drawable.main_switcher_off);
 	}
     }
 
     @Override
     public void onClick(View v) {
 	switch (v.getId()) {
+	case R.id.main_switcher:
+	    if (Pref.isMainSwitcherOn()) {
+		Pref.setMainSwitcher(this, false);
+		v.setBackgroundResource(R.drawable.main_switcher_off);
+		Intent i = new Intent(this, PocketSphinxService.class);
+		this.stopService(i);
+	    } else {
+		Pref.setMainSwitcher(this, true);
+		v.setBackgroundResource(R.drawable.main_switcher_on);
+		Intent i = new Intent(this, PocketSphinxService.class);
+		this.startService(i);
+	    }
+	    break;
 	case R.id.startTime:
 	    createTimePickerDialog(mStartTime, startTime, 0, 0, true);
 	    break;
@@ -80,9 +99,9 @@ public class MainActivity extends Activity implements OnClickListener {
 	    break;
 	case R.id.NoDisturbing_switcher:
 	    if (noDisturbingSwitcher.isChecked()) {
-		Pref.enableNoDisturbingModeOnlyNight(this, true);
+		Pref.setNightMode(this, true);
 	    } else {
-		Pref.enableNoDisturbingModeOnlyNight(this, false);
+		Pref.setNightMode(this, false);
 	    }
 	    break;
 	}
@@ -125,7 +144,7 @@ public class MainActivity extends Activity implements OnClickListener {
      */
     public static boolean isWorkingTime(int[] mStartTime2, int[] mEndTime2) {
 
-	if (Pref.isNoDisturbingModeOnlyNight()) {
+	if (Pref.isNightModeOn()) {
 	    // 开启夜间免打扰模式，在夜间(00:00-07:00)server不允许运行
 	    Calendar cal = Calendar.getInstance();// 当前日期
 	    int hour = cal.get(Calendar.HOUR_OF_DAY);// 获取小时
