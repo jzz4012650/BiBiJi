@@ -1,22 +1,29 @@
 package com.bibizhaoji.bibiji;
 
+import com.bibizhaoji.bibiji.aidl.IRemoteRecognizerService;
 import com.bibizhaoji.bibiji.utils.Log;
 import com.bibizhaoji.pocketsphinx.PocketSphinxService;
+import com.bibizhaoji.pocketsphinx.RemoteRecognizerService;
 
 import android.app.Service;
+import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
+import android.content.ServiceConnection;
 import android.hardware.Sensor;
 import android.hardware.SensorEvent;
 import android.hardware.SensorEventListener;
 import android.hardware.SensorManager;
 import android.os.IBinder;
+import android.os.RemoteException;
 
 public class AccSensorService extends Service implements SensorEventListener {
 
 	private Context mContext;
 	private SensorManager sensorManager;
 	private Sensor accSensor;
+	IRemoteRecognizerService mIRemoteRecognizerService;
+	
 	// 上次检测时间
 	private long lasttime;
 	//速度阈值，当摇晃速度达到这值后产生作用
@@ -34,17 +41,22 @@ public class AccSensorService extends Service implements SensorEventListener {
 	public void onCreate() {
 		super.onCreate();
 		mContext = this;
+		bindService(new Intent(RemoteRecognizerService.REMOTE_SERVICE_ACTION), mConnection, BIND_AUTO_CREATE);
+		
+		Log.d(G.LOG_TAG, "bind recognizer service");
 		sensorManager = (SensorManager) getSystemService(Context.SENSOR_SERVICE);
 		// 加速度传感器
 		accSensor = sensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER);
 		//注册监听器
 		sensorManager.registerListener(this, accSensor, SensorManager.SENSOR_DELAY_GAME);
+		
 	}
 
 	@Override
 	public void onDestroy() {
 		super.onDestroy();
 		sensorManager.unregisterListener(this);
+		unbindService(mConnection);
 	}
 
 	@Override
@@ -92,4 +104,25 @@ public class AccSensorService extends Service implements SensorEventListener {
 			
 		}
 	}
+	
+	private ServiceConnection mConnection = new ServiceConnection() {
+		
+		@Override
+		public void onServiceDisconnected(ComponentName name) {
+			Log.d(G.LOG_TAG, "RemoteClient recognizer service disconnected..");
+		}
+		
+		@Override
+		public void onServiceConnected(ComponentName name, IBinder service) {
+			//获取service aidl 对象
+			mIRemoteRecognizerService = IRemoteRecognizerService.Stub.asInterface(service);
+			try {
+				Log.d(G.LOG_TAG,"recognizer state -->"+mIRemoteRecognizerService.getState());
+				
+			} catch (RemoteException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
+	};
 }

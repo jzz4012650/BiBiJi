@@ -45,8 +45,16 @@
             android:name="com.bibizhaoji.bibiji.MediaButtonListenerService" >
         </service>
         <service 
-            android:name="com.bibizhaoji.pocketsphinx.PocketSphinxService" >
+            android:name="com.bibizhaoji.pocketsphinx.PocketSphinxService">
         </service>
+        
+        <service 
+            android:name="com.bibizhaoji.pocketsphinx.RemoteRecognizerService">
+            <intent-filter>
+                <action android:name="com.bibizhaoji.action.remote.PocketSphinxService" />
+            </intent-filter>
+        </service>
+        
         <service 
             android:name="com.bibizhaoji.bibiji.AccSensorService">
         </service>

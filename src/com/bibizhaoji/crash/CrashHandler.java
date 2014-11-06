@@ -7,26 +7,9 @@ import java.io.PrintWriter;
 import java.io.StringWriter;
 import java.lang.Thread.UncaughtExceptionHandler;
 import java.lang.reflect.Field;
-import java.net.Authenticator;
-import java.net.PasswordAuthentication;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
-import java.util.Properties;
-
-import javax.activation.CommandMap;
-import javax.activation.DataHandler;
-import javax.activation.FileDataSource;
-import javax.activation.MailcapCommandMap;
-import javax.mail.Message;
-import javax.mail.Message.RecipientType;
-import javax.mail.MessagingException;
-import javax.mail.Session;
-import javax.mail.Transport;
-import javax.mail.internet.AddressException;
-import javax.mail.internet.InternetAddress;
-import javax.mail.internet.MimeBodyPart;
-import javax.mail.internet.MimeMessage;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
@@ -39,8 +22,6 @@ import android.widget.Toast;
 
 import com.bibizhaoji.bibiji.utils.Log;
 import com.bibizhaoji.bibiji.utils.ToastUtils;
-import com.qihoo.android.util.AndroidDevice;
-import com.qihoo.android.util.AndroidManifest;
 
 public class CrashHandler implements UncaughtExceptionHandler
 {
@@ -285,75 +266,5 @@ public class CrashHandler implements UncaughtExceptionHandler
         return null;
     }
     
-    /**
-     * 发送带附件的邮件
-     * 
-     * @param text
-     *            内容
-     * @throws AddressException
-     * @throws MessagingException
-     */
-//    private void sendEmail(String text) throws AddressException, MessagingException
-//    {
-//        if (text == null)
-//        {
-//            return;
-//        }
-//        
-//        String subject = "BiBiJi的APP异常@";
-//        subject += AndroidDevice.getManufacturer();
-//        subject += "+" + AndroidDevice.getAndroidModel();
-//        subject += "+" + AndroidDevice.getAndroidVersion();
-//        subject += "+" + AndroidManifest.getVersionName(mContext);
-//        subject += "+" + AndroidManifest.getVersionCode(mContext);
-//        
-//        // 发送邮件的协议
-//        Properties properties = new Properties();
-//        properties.setProperty("mail.smtp.auth", "true");// 设置验证机制
-//        properties.setProperty("mail.transport.protocol", "smtp");// 发送邮件协议
-//        properties.setProperty("mail.smtp.host", "smtp.163.com");// 设置邮箱服务器地址
-//        properties.setProperty("mail.smtp.port", "25");
-//        Session session = Session.getInstance(properties,authenticator);
-//        Message message = new MimeMessage(session);
-//        message.setFrom(new InternetAddress("caiyingyuan_job@163.com"));
-//        message.setSubject(subject);
-//        message.setText(text);
-//        message.setRecipients(RecipientType.TO, InternetAddress.parse("caiyingyuan@360.cn"));// 接收人
-//        message.saveChanges();
-//        
-//        // 重新映射
-//        MailcapCommandMap mailcapCommandMap = (MailcapCommandMap) CommandMap.getDefaultCommandMap();
-//        mailcapCommandMap.addMailcap("text/html;; x-java-content-handler=com.sun.mail.handlers.text_html");
-//        mailcapCommandMap.addMailcap("text/xml;; x-java-content-handler=com.sun.mail.handlers.text_xml");
-//        mailcapCommandMap.addMailcap("text/plain;; x-java-content-handler=com.sun.mail.handlers.text_plain");
-//        mailcapCommandMap.addMailcap("multipart/*;; x-java-content-handler=com.sun.mail.handlers.multipart_mixed");
-//        mailcapCommandMap.addMailcap("message/rfc822;; x-java-content-handler=com.sun.mail.handlers.message_rfc822");
-//        CommandMap.setDefaultCommandMap(mailcapCommandMap);
-//        
-//        Transport.send(message);
-//    }
-//    
-//    /**
-//     * 创建附件
-//     * 
-//     * @param file
-//     * @return
-//     * @throws MessagingException
-//     */
-//    public MimeBodyPart getAttachment(File file) throws MessagingException
-//    {
-//        MimeBodyPart attachment = new MimeBodyPart();
-//        FileDataSource dataSource = new FileDataSource(file);
-//        attachment.setDataHandler(new DataHandler(dataSource));
-//        attachment.setFileName(dataSource.getName());
-//        return attachment;
-//    }
-//    
-//    public final Authenticator authenticator = new Authenticator()
-//    {
-//        protected PasswordAuthentication getPasswordAuthentication()
-//        {
-//            return new PasswordAuthentication("caiyingyuan_job@163.com", "402019887");
-//        };
-//    };
+   
 }
