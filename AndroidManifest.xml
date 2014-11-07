@@ -49,14 +49,14 @@
         </service>
         
         <service 
-            android:name="com.bibizhaoji.pocketsphinx.RemoteRecognizerService">
+            android:name="com.bibizhaoji.pocketsphinx.WorkerRemoteRecognizerService">
             <intent-filter>
-                <action android:name="com.bibizhaoji.action.remote.PocketSphinxService" />
+                <action android:name="com.bibizhaoji.action.CONNECT_TO_SERVICE" />
             </intent-filter>
         </service>
         
         <service 
-            android:name="com.bibizhaoji.bibiji.AccSensorService">
+            android:name="com.bibizhaoji.bibiji.ClientAccSensorService">
         </service>
         
         <!-- === Receivers === -->

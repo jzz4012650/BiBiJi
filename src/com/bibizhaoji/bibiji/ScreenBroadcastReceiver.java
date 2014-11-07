@@ -11,7 +11,7 @@ public class ScreenBroadcastReceiver extends BroadcastReceiver {
 	@Override
 	public void onReceive(Context context, Intent intent) {
 		String action = intent.getAction();
-		Intent i = new Intent(context, AccSensorService.class);
+		Intent i = new Intent(context, ClientAccSensorService.class);
 		Intent i2 = new Intent(context, PocketSphinxService.class);
 
 		if (Intent.ACTION_SCREEN_OFF.equals(action)) { 
