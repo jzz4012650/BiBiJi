@@ -7,127 +7,70 @@
     <RelativeLayout
         android:id="@+id/top"
         android:layout_width="match_parent"
-        android:layout_height="50dp" >
+        android:layout_height="75dp"
+        android:paddingBottom="12.5dp"
+        android:paddingTop="12.5dp" >
 
         <Button
             android:id="@+id/night_mode_switcher"
-            android:layout_width="40dp"
-            android:layout_height="34dp"
+            android:layout_width="60dp"
+            android:layout_height="51dp"
             android:layout_alignParentLeft="true"
             android:layout_alignParentStart="true"
             android:layout_centerVertical="true"
             android:layout_marginLeft="10dp"
-            android:background="@drawable/night_mode"
+            android:background="@drawable/night_mode_off"
             android:contentDescription="@string/night_mode" />
 
         <ImageView
-            android:layout_width="93.3dp"
-            android:layout_height="34dp"
+            android:layout_width="140dp"
+            android:layout_height="51dp"
             android:layout_centerInParent="true"
             android:background="@drawable/title"
             android:contentDescription="@string/app_name" />
 
         <Button
             android:id="@+id/main_switcher"
-            android:layout_width="45.3dp"
-            android:layout_height="21dp"
+            android:layout_width="68dp"
+            android:layout_height="31.5dp"
             android:layout_alignParentEnd="true"
             android:layout_alignParentRight="true"
             android:layout_centerVertical="true"
-            android:layout_marginRight="15dp"
+            android:layout_marginRight="10dp"
             android:background="@drawable/main_switcher_off"
             android:contentDescription="@string/main_switcher" />
     </RelativeLayout>
 
-    <RelativeLayout
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_below="@id/top" >
+        android:layout_below="@id/top"
+        android:orientation="vertical" >
 
-        <TextView
-            android:id="@+id/startTime"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignBaseline="@+id/textView2"
-            android:layout_alignBottom="@+id/textView2"
-            android:layout_alignParentRight="true"
-            android:layout_toRightOf="@+id/textView2"
-            android:clickable="true"
-            android:ems="10"
-            android:hint="开始时间"
-            android:textSize="16sp" />
+        <ImageView
+            android:id="@+id/gif_state"
+            android:layout_width="260dp"
+            android:layout_height="260dp"
+            android:layout_gravity="center_horizontal"
+            android:background="@drawable/state_off"
+            android:contentDescription="@string/state_off" />
 
-        <TextView
-            android:id="@+id/textView3"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignLeft="@+id/endTime"
-            android:layout_below="@+id/startTime"
-            android:layout_marginTop="17dp"
-            android:text="至" />
+        <ImageView
+            android:id="@+id/text_state"
+            android:layout_width="260dp"
+            android:layout_height="128dp"
+            android:layout_gravity="center_horizontal"
+            android:background="@drawable/bg_main_off"
+            android:contentDescription="@string/state_off" />
 
-        <TextView
-            android:id="@+id/endTime"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignLeft="@+id/startTime"
-            android:layout_below="@+id/textView3"
-            android:layout_marginTop="15dp"
-            android:clickable="true"
-            android:ems="10"
-            android:hint="结束时间"
-            android:textSize="16sp" />
-
-        <LinearLayout
-            android:id="@+id/linearLayout2"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_below="@+id/endTime"
-            android:layout_centerHorizontal="true"
-            android:layout_marginTop="49dp"
-            android:orientation="horizontal" >
-
-            <TextView
-                android:id="@+id/textView1"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="夜间免打扰模式" />
-
-            <ToggleButton
-                android:id="@+id/NoDisturbing_switcher"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content" />
-        </LinearLayout>
-
-        <LinearLayout
-            android:id="@+id/linearLayout1"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_below="@+id/linearLayout2"
-            android:layout_centerHorizontal="true"
-            android:layout_marginTop="37dp"
-            android:orientation="horizontal" >
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="语音识别服务" />
-
-            <ToggleButton
-                android:id="@+id/service_switcher"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content" />
-        </LinearLayout>
-
-        <TextView
-            android:id="@+id/textView2"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentLeft="true"
-            android:layout_alignParentTop="true"
-            android:layout_marginLeft="50dp"
-            android:layout_marginTop="88dp"
-            android:text="免打扰时间段：" />
-    </RelativeLayout>
+        <Button
+            android:id="@+id/stop_btn"
+            android:layout_width="116.5dp"
+            android:layout_height="58dp"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginTop="10dp"
+            android:background="@drawable/stop_btn"
+            android:visibility="gone" />
+    </LinearLayout>
 
 </RelativeLayout>

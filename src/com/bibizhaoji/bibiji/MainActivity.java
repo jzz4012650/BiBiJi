@@ -3,53 +3,50 @@ package com.bibizhaoji.bibiji;
 import java.util.Calendar;
 
 import android.app.Activity;
-import android.app.TimePickerDialog;
-import android.app.TimePickerDialog.OnTimeSetListener;
 import android.content.Intent;
+import android.graphics.drawable.AnimationDrawable;
 import android.os.Bundle;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
-import android.widget.TextView;
-import android.widget.TimePicker;
-import android.widget.ToggleButton;
+import android.widget.ImageView;
 
 import com.bibizhaoji.bibiji.utils.Pref;
-import com.bibizhaoji.bibiji.utils.ToastUtils;
 import com.bibizhaoji.pocketsphinx.PocketSphinxService;
 
 public class MainActivity extends Activity implements OnClickListener {
 
     private Button mainSwticher;
     private Button nightModeSwitcher;
-    private ToggleButton serviceSwitcher;
-    private ToggleButton noDisturbingSwitcher;
-    private TextView startTime;
-    private TextView endTime;
     private int[] mStartTime = { 0, 0 };// 默认00:00
     private int[] mEndTime = { 7, 0 };// 默认07:00
+
+    private ImageView stateGif;
+    private ImageView stateText;
+    private AnimationDrawable gifAnim;
+
+    private static final int STATE_OFF = 0;
+    private static final int STATE_LISTENING = 1;
+    private static final int STATE_ACTIVE = 2;
+    private static final int STATE_STOP = 3;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
 	super.onCreate(savedInstanceState);
 	setContentView(R.layout.activity_main);
 
-	serviceSwitcher = (ToggleButton) findViewById(R.id.service_switcher);
-	noDisturbingSwitcher = (ToggleButton) findViewById(R.id.NoDisturbing_switcher);
-	startTime = (TextView) findViewById(R.id.startTime);
-	endTime = (TextView) findViewById(R.id.endTime);
 	mainSwticher = (Button) findViewById(R.id.main_switcher);
 	nightModeSwitcher = (Button) findViewById(R.id.night_mode_switcher);
+	stateGif = (ImageView) findViewById(R.id.gif_state);
+	stateText = (ImageView) findViewById(R.id.text_state);
 
-	startTime.setOnClickListener(this);
-	endTime.setOnClickListener(this);
-	noDisturbingSwitcher.setOnClickListener(this);
-	serviceSwitcher.setOnClickListener(this);
 	mainSwticher.setOnClickListener(this);
 	nightModeSwitcher.setOnClickListener(this);
+
+	gifAnim = (AnimationDrawable) stateGif.getBackground();
+	gifAnim.start();
 	// 初始化配置文件
 	Pref.getSharePrefenrences(this);
-	noDisturbingSwitcher.setChecked(Pref.isNightModeOn());
     }
 
     @Override
@@ -57,80 +54,73 @@ public class MainActivity extends Activity implements OnClickListener {
 	super.onStart();
 	if (Pref.isMainSwitcherOn()) {
 	    mainSwticher.setBackgroundResource(R.drawable.main_switcher_on);
+	    setState(STATE_LISTENING);
 	} else {
 	    mainSwticher.setBackgroundResource(R.drawable.main_switcher_off);
+	    setState(STATE_OFF);
 	}
+	nightModeSwitcher
+		.setBackgroundResource(Pref.isNightModeOn() ? R.drawable.night_mode_on
+			: R.drawable.night_mode_off);
     }
 
     @Override
     public void onClick(View v) {
 	switch (v.getId()) {
+	// 主服务开关
 	case R.id.main_switcher:
 	    if (Pref.isMainSwitcherOn()) {
+		setState(STATE_OFF);
 		Pref.setMainSwitcher(this, false);
 		v.setBackgroundResource(R.drawable.main_switcher_off);
 		Intent i = new Intent(this, PocketSphinxService.class);
 		this.stopService(i);
 	    } else {
+		setState(STATE_LISTENING);
 		Pref.setMainSwitcher(this, true);
 		v.setBackgroundResource(R.drawable.main_switcher_on);
 		Intent i = new Intent(this, PocketSphinxService.class);
 		this.startService(i);
 	    }
 	    break;
-	case R.id.startTime:
-	    createTimePickerDialog(mStartTime, startTime, 0, 0, true);
-	    break;
-	case R.id.endTime:
-	    createTimePickerDialog(mEndTime, endTime, 7, 0, true);
-	    break;
-	case R.id.service_switcher:
-	    if (isWorkingTime(mStartTime, mEndTime)) {
-		if (serviceSwitcher.isChecked()) {
-		    Intent i = new Intent(this, PocketSphinxService.class);
-		    this.startService(i);
-		} else {
-		    Intent i = new Intent(this, PocketSphinxService.class);
-		    this.stopService(i);
-		}
-	    } else {
-		ToastUtils.show(this, "当前为夜间免打扰时间段!");
-	    }
-	    break;
-	case R.id.NoDisturbing_switcher:
-	    if (noDisturbingSwitcher.isChecked()) {
-		Pref.setNightMode(this, true);
-	    } else {
+	// 夜间模式开关
+	case R.id.night_mode_switcher:
+	    if (Pref.isNightModeOn()) {
+		v.setBackgroundResource(R.drawable.night_mode_off);
 		Pref.setNightMode(this, false);
+	    } else {
+		v.setBackgroundResource(R.drawable.night_mode_on);
+		Pref.setNightMode(this, true);
+		Intent i = new Intent(this, NightModeNoticeActivity.class);
+		this.startActivity(i);
 	    }
-	    break;
 	}
 
     }
 
-    /**
-     * 创建时间选择控件
-     * 
-     * @param time
-     * @param edit
-     * @param hourOfDay
-     * @param minute
-     * @param is24HourView
-     */
-    private void createTimePickerDialog(final int[] time, final TextView edit,
-	    int hourOfDay, int minute, boolean is24HourView) {
-
-	new TimePickerDialog(this, new OnTimeSetListener() {
-
-	    @Override
-	    public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
-		edit.setText(hourOfDay + ":" + minute);
-		time[0] = hourOfDay;
-		time[1] = minute;
-	    }
-
-	}, hourOfDay, minute, is24HourView).show();
-
+    private void setState(int state) {
+	switch (state) {
+	case STATE_OFF:
+	    stateText.setBackgroundResource(R.drawable.bg_main_off);
+	    stateGif.setBackgroundResource(R.drawable.state_off);
+	    break;
+	case STATE_LISTENING:
+	    stateText.setBackgroundResource(R.drawable.bg_main_listening);
+	    stateGif.setBackgroundResource(R.drawable.state_listening);
+	    break;
+	case STATE_ACTIVE:
+	    stateText.setBackgroundResource(R.drawable.bg_main_active);
+	    stateGif.setBackgroundResource(R.drawable.state_active);
+	    break;
+	case STATE_STOP:
+	    stateText.setBackgroundResource(R.drawable.bg_main_stop);
+	    stateGif.setBackgroundResource(R.drawable.state_stop);
+	    break;
+	default:
+	    break;
+	}
+	gifAnim = (AnimationDrawable) stateGif.getBackground();
+	gifAnim.start();
     }
 
     /**

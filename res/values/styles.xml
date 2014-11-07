@@ -7,8 +7,29 @@
 
     <style name="NoActionBar" parent="@android:style/Theme.Holo.NoActionBar.Fullscreen"></style>
     
+    <style name="NoBackground" parent="@android:style/Theme.Holo.Dialog.NoActionBar">
+        <item name="android:windowBackground">@android:color/transparent</item>
+        <item name="android:windowCloseOnTouchOutside">false</item>
+    </style>
+    
     <style name="GifAnimation" parent="@android:style/Widget.ProgressBar.Large">
         <item name="android:indeterminateDrawable">@anim/gif_anim</item>
     </style>
+    
+    <!-- <style name="gif_state_off" parent="@android:style/Widget.ProgressBar.Large">
+        <item name="android:indeterminateDrawable">@anim/state_off</item>
+    </style>
+    
+    <style name="gif_state_avtive" parent="@android:style/Widget.ProgressBar.Large">
+        <item name="android:indeterminateDrawable">@anim/state_active</item>
+    </style>
 
+    <style name="gif_state_listening" parent="@android:style/Widget.ProgressBar.Large">
+        <item name="android:indeterminateDrawable">@anim/state_listening</item>
+    </style>
+    
+    <style name="gif_state_stop" parent="@android:style/Widget.ProgressBar.Large">
+        <item name="android:indeterminateDrawable">@anim/state_stop</item>
+    </style>
+ -->    
 </resources>

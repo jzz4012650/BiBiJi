@@ -16,5 +16,7 @@
     <string name="hello_world">主人我在这里！</string>
     <string name="night_mode">夜间模式</string>
     <string name="main_switcher">总开关</string>
+    <string name="title_activity_night_mode_notice">NightModeNoticeActivity</string>
+    <string name="state_off">关闭状态</string>
 
 </resources>

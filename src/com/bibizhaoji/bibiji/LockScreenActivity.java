@@ -1,13 +1,19 @@
 package com.bibizhaoji.bibiji;
 
+import com.bibizhaoji.bibiji.utils.CustomAnimationDrawable;
+
 import android.annotation.SuppressLint;
 import android.app.Activity;
+import android.graphics.drawable.AnimationDrawable;
 import android.media.AudioManager;
 import android.media.MediaPlayer;
 import android.os.Build;
 import android.os.Bundle;
 import android.view.View;
 import android.view.WindowManager;
+import android.view.View.OnClickListener;
+import android.widget.Button;
+import android.widget.ImageView;
 
 /**
  * 接收到语音指令后，弹出于锁屏之上的界面
@@ -15,10 +21,14 @@ import android.view.WindowManager;
  * @author jinzhenzu
  * 
  */
-public class LockScreenActivity extends Activity {
+public class LockScreenActivity extends Activity implements OnClickListener {
 
+    private AnimationDrawable gifAnim;
     private MediaPlayer mediaPlayer;
     private AudioManager audioManager;
+    private Button stopBtn;
+    private ImageView gif;
+    private ImageView text;
     private int originalVol;
     private int maximalVol;
 
@@ -50,6 +60,12 @@ public class LockScreenActivity extends Activity {
 	// 渲染界面
 	setContentView(R.layout.activity_lock_screen);
 
+	gif = (ImageView) findViewById(R.id.gif);
+	text = (ImageView) findViewById(R.id.text);
+	stopBtn = (Button) findViewById(R.id.stop_btn_lockscreen);
+
+	stopBtn.setOnClickListener(this);
+
     }
 
     @Override
@@ -58,15 +74,18 @@ public class LockScreenActivity extends Activity {
 	audioManager = (AudioManager) getSystemService(AUDIO_SERVICE);
 	originalVol = audioManager.getStreamVolume(AudioManager.STREAM_MUSIC);
 	maximalVol = audioManager.getStreamMaxVolume(AudioManager.STREAM_MUSIC);
-//	playSound(G.RINGTON, G.VOLUME);
+	gifAnim = (AnimationDrawable) gif.getBackground();
+	gifAnim.start();
+	// playSound(G.RINGTON, G.VOLUME);
     }
 
     @Override
     protected void onPause() {
 	super.onPause();
-//	stopSound();
+	// stopSound();
 	// 恢复铃声
-//	audioManager.setStreamVolume(AudioManager.STREAM_MUSIC, originalVol, 0);
+	// audioManager.setStreamVolume(AudioManager.STREAM_MUSIC, originalVol,
+	// 0);
 	// this.finish();
     }
 
@@ -116,6 +135,26 @@ public class LockScreenActivity extends Activity {
 	    mediaPlayer.stop();
 	    mediaPlayer.release();
 	    mediaPlayer = null;
+	}
+    }
+
+    @Override
+    public void onClick(View v) {
+	switch (v.getId()) {
+	case R.id.stop_btn_lockscreen:	    
+	    stopBtn.setVisibility(View.GONE);
+	    gif.setBackgroundResource(R.drawable.state_stop);
+	    text.setBackgroundResource(R.drawable.bg_main_stop);
+	    gifAnim = (AnimationDrawable) gif.getBackground();
+	    CustomAnimationDrawable cad = new CustomAnimationDrawable(gifAnim) {
+
+		@Override
+		public void onAnimationFinish() {
+		    finish();
+		}
+	    };
+	    cad.start();
+	    break;
 	}
     }
 }
