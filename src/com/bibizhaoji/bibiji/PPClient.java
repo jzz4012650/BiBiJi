@@ -1,6 +1,5 @@
 package com.bibizhaoji.bibiji;
 
-import android.database.CursorJoiner.Result;
 import android.os.RemoteException;
 
 import com.bibizhaoji.bibiji.aidl.IPPClient;

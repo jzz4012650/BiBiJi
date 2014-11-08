@@ -1,11 +1,10 @@
 package com.bibizhaoji.bibiji;
 
-import com.bibizhaoji.bibiji.utils.Log;
-import com.bibizhaoji.pocketsphinx.PocketSphinxService;
-
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
+
+import com.bibizhaoji.bibiji.utils.Log;
 
 public class ScreenBroadcastReceiver extends BroadcastReceiver {
 	@Override

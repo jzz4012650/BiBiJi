@@ -10,7 +10,6 @@ import android.os.Bundle;
 import android.util.Log;
 
 import com.bibizhaoji.bibiji.FileUtils;
-import com.bibizhaoji.bibiji.G;
 
 import edu.cmu.pocketsphinx.Config;
 import edu.cmu.pocketsphinx.Decoder;

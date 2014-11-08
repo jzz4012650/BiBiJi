@@ -5,7 +5,6 @@ import java.util.Calendar;
 import android.app.Fragment;
 import android.app.TimePickerDialog;
 import android.app.TimePickerDialog.OnTimeSetListener;
-import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
@@ -17,7 +16,6 @@ import android.widget.TextView;
 import android.widget.TimePicker;
 import android.widget.ToggleButton;
 
-import com.bibizhaoji.bibiji.utils.Log;
 import com.bibizhaoji.bibiji.utils.Pref;
 import com.bibizhaoji.bibiji.utils.ToastUtils;
 import com.bibizhaoji.pocketsphinx.PocketSphinxService;

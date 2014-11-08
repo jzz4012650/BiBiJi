@@ -1,8 +1,6 @@
 
 package com.bibizhaoji.bibiji.utils;
 
-import android.text.TextUtils;
-import org.apache.http.protocol.HTTP;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
@@ -10,6 +8,10 @@ import java.io.InputStream;
 import java.io.UnsupportedEncodingException;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
+
+import org.apache.http.protocol.HTTP;
+
+import android.text.TextUtils;
 
 public class Md5Util {
 

@@ -12,7 +12,6 @@ import android.util.Log;
 
 import com.bibizhaoji.bibiji.G;
 import com.bibizhaoji.bibiji.LockScreenActivity;
-import com.bibizhaoji.bibiji.PPClient;
 import com.bibizhaoji.bibiji.aidl.IPPClient;
 import com.bibizhaoji.bibiji.aidl.IWorkerService;
 import com.bibizhaoji.bibiji.utils.Pref;
