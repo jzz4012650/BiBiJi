@@ -12,7 +12,6 @@ public class ScreenBroadcastReceiver extends BroadcastReceiver {
 	public void onReceive(Context context, Intent intent) {
 		String action = intent.getAction();
 		Intent i = new Intent(context, ClientAccSensorService.class);
-		Intent i2 = new Intent(context, PocketSphinxService.class);
 
 		if (Intent.ACTION_SCREEN_OFF.equals(action)) { 
 			// 锁屏
@@ -23,13 +22,11 @@ public class ScreenBroadcastReceiver extends BroadcastReceiver {
 			// 开屏
 			Log.d(G.LOG_TAG, "SCREEN_ON--->END SERVICE");
 			context.stopService(i);
-			context.stopService(i2);
 			
 		}else if (Intent.ACTION_USER_PRESENT.equals(action)) { 
             // 解锁
 			Log.d(G.LOG_TAG, "解锁dfdfsdf--->END SERVICE");
 			context.stopService(i);
-			context.stopService(i2);
 
         }
 		
