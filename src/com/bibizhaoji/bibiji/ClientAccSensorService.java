@@ -31,12 +31,13 @@ public class ClientAccSensorService extends Service implements SensorEventListen
 	// 上次检测时间
 	private long lasttime;
 	//速度阈值，当摇晃速度达到这值后产生作用
-	private int shakeThreshold = 29;
+	private int shakeThreshold = 15;
 	// 两次检测的时间间隔
-	static final int UPDATE_INTERVAL = 1000 * 10;
+	static int UPDATE_INTERVAL = 1000 * 10;
 	
 	private boolean isFirst;
-
+	private boolean isMatch;
+	private int idle_count;
 	@Override
 	public IBinder onBind(Intent arg0) {
 		// TODO Auto-generated method stub
@@ -49,6 +50,7 @@ public class ClientAccSensorService extends Service implements SensorEventListen
 		mContext = this;
 		mClient = new PPClient();
 		isFirst = true;
+		
 		sensorManager = (SensorManager) getSystemService(Context.SENSOR_SERVICE);
 		// 加速度传感器
 		accSensor = sensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER);
@@ -108,7 +110,7 @@ public class ClientAccSensorService extends Service implements SensorEventListen
 
 	@Override
 	public void onSensorChanged(SensorEvent event) {
-
+	
 		//获得x,y,z坐标  
 		float x = event.values[SensorManager.DATA_X];
 		float y = event.values[SensorManager.DATA_Y];
@@ -120,11 +122,11 @@ public class ClientAccSensorService extends Service implements SensorEventListen
 		//两次检测的时间间隔  
 		long timeInterval = current - lasttime;
 		
+		
 		//判断是否达到了检测时间间隔  
 		if (timeInterval < UPDATE_INTERVAL) {
 			return;
 		}
-		
 		
 		if (Math.abs(x) + Math.abs(y) + Math.abs(z) > shakeThreshold) {
 			//达到速度阀值，发出提示
@@ -148,12 +150,28 @@ public class ClientAccSensorService extends Service implements SensorEventListen
 					
 					if(mClient.getResult() == WorkerRemoteRecognizerService.STATE_NONE){
 						mIWorkerService.stop();
+						idle_count++;
+						if (idle_count == 5) {
+							isMatch = false;
+							idle_count = 0;
+						}
 						isFirst = true;
+						Log.d(G.LOG_TAG, "STATE_NONE count-->"+idle_count );
 					}else if(mClient.getResult() == WorkerRemoteRecognizerService.STATE_MATCH){
+						
+//						if(isMatch){
+							
+//						}
+						Log.d(G.LOG_TAG, "STATE_MATCH -->isMatch"+isMatch );
+
 						mIWorkerService.stop();
-						isFirst = true;
+						
+						isFirst = false;
 					}else if(mClient.getResult() == WorkerRemoteRecognizerService.STATE_MARK){
 						mIWorkerService.start();
+						isMatch = true;
+						Log.d(G.LOG_TAG, "STATE_MARK ");
+
 					}
 				}
 				

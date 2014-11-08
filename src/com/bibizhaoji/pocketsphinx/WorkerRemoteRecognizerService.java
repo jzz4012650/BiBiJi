@@ -22,19 +22,18 @@ public class WorkerRemoteRecognizerService extends Service implements
 
 	public static final String ACTION = "com.bibizhaoji.action.CONNECT_TO_SERVICE";
 	private RecognizerTask recTask;
-	private  Thread recThread;
+	private Thread recThread;
 	private boolean listening;
 	private long tStart;
 	private long tEnd;
 	Context mContext;
 	// 识别不出来或为空
 	public static int STATE_NONE = 0;
-	// 识别出关键词
-	public static int STATE_MATCH = 1;
 	// 命中分词
-	public static int STATE_MARK = 2;
+	public static int STATE_MARK = 1;
+	// 识别出关键词
+	public static int STATE_MATCH = 2;
 
-	
 	public IPPClient mClient;
 
 	@Override
@@ -85,10 +84,12 @@ public class WorkerRemoteRecognizerService extends Service implements
 		private WeakReference<WorkerRemoteRecognizerService> mReference;
 
 		public MyBinder(WorkerRemoteRecognizerService blockCentralService) {
-			mReference = new WeakReference<WorkerRemoteRecognizerService>(blockCentralService);
+			mReference = new WeakReference<WorkerRemoteRecognizerService>(
+					blockCentralService);
 		}
 
-		private static MyBinder getInstance(WorkerRemoteRecognizerService workerService) {
+		private static MyBinder getInstance(
+				WorkerRemoteRecognizerService workerService) {
 			if (sInstance == null) {
 				synchronized (MyBinder.class) {
 					if (sInstance == null) {
@@ -98,16 +99,16 @@ public class WorkerRemoteRecognizerService extends Service implements
 			}
 			return sInstance;
 		}
-		
-        private static void destroy() {
-            if (sInstance != null) {
-                if (sInstance.mReference != null) {
-                    sInstance.mReference.clear();
-                    sInstance.mReference = null;
-                }
-                sInstance = null;
-            }
-        }
+
+		private static void destroy() {
+			if (sInstance != null) {
+				if (sInstance.mReference != null) {
+					sInstance.mReference.clear();
+					sInstance.mReference = null;
+				}
+				sInstance = null;
+			}
+		}
 
 		@Override
 		public boolean register(IPPClient client) throws RemoteException {
@@ -144,38 +145,38 @@ public class WorkerRemoteRecognizerService extends Service implements
 	public void onPartialResults(Bundle b) {
 
 		final String hyp = b.getString("hyp");
-		if (hyp == null) {
-			try {
-				mClient.onResult(STATE_NONE);
-			} catch (RemoteException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
+		int result = STATE_NONE;
+		if (hyp != null) {
+			if (hyp.indexOf(G.REC_WORD1) != -1) {
+				result = STATE_MARK;
+//				result = STATE_MATCH;
+//				Intent i = new Intent(this, LockScreenActivity.class);
+//				i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+//				this.startActivity(i);
+//				this.onDestroy();
 			}
-			return;
+//			int r = 0;
+//			try {
+//				r = mClient.getResult();
+//			} catch (RemoteException e) {
+//				e.printStackTrace();
+//			}
+			
+			if (hyp.contains( G.REC_WORD2) && hyp.indexOf(G.REC_WORD1) != -1) {
+				result = STATE_MATCH;
+				Intent i = new Intent(this, LockScreenActivity.class);
+				i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+				this.startActivity(i);
+				this.onDestroy();
+			}
 		}
-		if (hyp.indexOf(G.REC_WORD1) != -1) {
-			Log.d(G.LOG_TAG, "*********get rec_word:" + hyp);
-			
-			try {
-				mClient.onResult(STATE_MATCH);
-			} catch (RemoteException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
-			
-			Intent i = new Intent(this, LockScreenActivity.class);
-			i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-			this.startActivity(i);
-			this.onDestroy();
-		} else {
-			
-			try {
-				mClient.onResult(STATE_MARK);
-			} catch (RemoteException e) {
-				e.printStackTrace();
-			}
+		Log.d(G.LOG_TAG, "*********get rec_word:" + hyp);
+		try {
+			mClient.onResult(result);
+		} catch (RemoteException e) {
+			e.printStackTrace();
+		}
 
-		}
 	}
 
 	@Override
